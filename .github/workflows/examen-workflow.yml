@@ -1,0 +1,37 @@
+name: examen-workflow
+
+on: 
+  push:
+      branches:
+        - 'nueva-caracteristica'
+
+
+jobs:
+  hola_mundo:
+    runs-on: ubuntu-latest
+  
+    steps:
+    - name: Bajar codigo
+      uses: actions/checkout@v4
+    - name: Preparar entorno
+      uses: actions/setup-python@v4
+    - name: Instalar dependencias
+      run: pip install pytest
+    - name: Ejecutar codigo
+      run: pytest test.pY
+      
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    -
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    -
+      name: Construir imagen
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: false
+        tags: user/app:latest
+        
+          
